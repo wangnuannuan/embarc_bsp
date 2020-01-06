@@ -1,0 +1,18 @@
+# For c source files, run both Coverity Checker and MISRA-C-2012 Checker
+aom                      Coverity/MISRA-C
+c                        Coverity/MISRA-C
+cl                       Coverity/MISRA-C
+dsp                      Coverity/MISRA-C
+hl                       Coverity/MISRA-C
+itut                     Coverity/MISRA-C
+mqx                      Coverity/MISRA-C
+mw                       Coverity/MISRA-C
+mwcl                     Coverity/MISRA-C
+mwclc                    Coverity/MISRA-C
+pgo                      Coverity/MISRA-C
+
+# For cpp source files, MISRA-C is for C, so not suitable, Only run Coverity checker
+c++                      Coverity 
+cppmw                    Coverity
+
+

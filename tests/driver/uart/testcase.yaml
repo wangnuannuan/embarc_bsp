@@ -1,0 +1,5 @@
+tests:
+  peripheral.uart:
+    depends_on: uart
+    tags: drivers userspace
+    platform_exclude: emsk emsdp nsim

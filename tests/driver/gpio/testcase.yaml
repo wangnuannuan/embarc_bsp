@@ -1,0 +1,5 @@
+tests:
+  peripheral.gpio:
+    depends_on: gpio
+    tags: drivers userspace
+    platform_exclude: nsim
