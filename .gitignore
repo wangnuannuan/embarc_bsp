@@ -61,8 +61,6 @@
 **/obj_*/gnu_*/*
 **/obj_*/mw_*/*
 
-# Ignore Doxygen Generated Documents
-doc/build
 
 # Ignore IDE Workspace for develop master
 ide_projects
