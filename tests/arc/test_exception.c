@@ -146,6 +146,7 @@ static void check_processor_frame(PROCESSOR_FRAME_T *frame)
 #if ARC_FEATURE_DSP
 	DSP_EXT_FRAME_T *dsp_regs;
 	dsp_regs = &callee_regs->dsp_regs;
+	 /* When dsp_accshift==full, dsp_regs->dsp_ctrl = 0x1f, else  dsp_regs->dsp_ctrl = 0x16 */
 	UNIT_TEST_ASSERT_EQUAL(0x1f, dsp_regs->dsp_ctrl);
 	UNIT_TEST_ASSERT_EQUAL(58, dsp_regs->acc0_lo);
 	UNIT_TEST_ASSERT_EQUAL(129, dsp_regs->acc0_glo);

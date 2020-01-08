@@ -30,10 +30,10 @@ $(LIB_UNITTEST): $(LIB_UNITTEST_OBJS)
 	$(Q)$(AR) $(AR_OPT) $@ $(LIB_UNITTEST_OBJS)
 
 # specific compile rules
-# user can add rules to compile this middleware
-# if not rules specified to this middleware, it will use default compiling rules
+# user can add rules to compile this library
+# if not rules specified to this library, it will use default compiling rules
 
-# Middleware Definitions
+# Library Definitions
 LIB_INCDIR += $(LIB_UNITTEST_INCDIR)
 LIB_CSRCDIR += $(LIB_UNITTEST_CSRCDIR)
 LIB_ASMSRCDIR += $(LIB_UNITTEST_ASMSRCDIR)
