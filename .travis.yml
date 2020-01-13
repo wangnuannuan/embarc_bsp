@@ -63,7 +63,7 @@ jobs:
           script:
             - git checkout feature/async_master
             - |
-              commit_ids_list=$(git cherry -v remote/origin/master origindev | (grep '^+.*:.*'|| true)| (grep -v '\(test\|ci\):' || true) | cut -d" " -f2 | tr ' ' '\n'|tac|tr '\n' ' ')
+              commit_ids_list=$(git cherry -v HEAD origin/feature/dev | (grep '^+.*:.*'|| true)| (grep -v '\(test\|ci\):' || true) | cut -d" " -f2 | tr ' ' '\n'|tac|tr '\n' ' ')
               commit_ids=($commit_ids_list)
               for i in $commit_ids_list; do
                 git cherry-pick -n $i
