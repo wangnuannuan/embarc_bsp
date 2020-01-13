@@ -67,6 +67,6 @@ jobs:
               commit_ids=($commit_ids_list)
               for i in $commit_ids_list; do
                 git cherry-pick -n $i
+                git commit --no-edit
               done
-              git commit
               git push origin feature/coverage
