@@ -64,9 +64,10 @@ jobs:
             - git checkout feature/async_master
             - |
               commit_ids_list=$(git cherry -v HEAD origin/feature/dev | (grep '^+.*:.*'|| true)| (grep -v '\(test\|ci\):' || true) | cut -d" " -f2 | tr ' ' '\n'|tac|tr '\n' ' ')
-              commit_ids=($commit_ids_list)
+              REPO_NAME="github.com/wangnuannuan/embarc_bsp.git"
+              REPO_LINK="https://""${GH_TOKEN}""@""${REPO_NAME}"
               for i in $commit_ids_list; do
                 git cherry-pick -n $i
                 git commit --no-edit
               done
-              git push origin feature/async_master
+              git push ${REPO_LINK} feature/async_master:feature/async_master
