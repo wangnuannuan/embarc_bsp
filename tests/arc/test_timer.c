@@ -37,115 +37,115 @@
 #include "arc/arc_timer.h"
 
 UNIT_TEST(arc_timer, present) {
-	UNIT_TEST_ASSERT_EQUAL(1, timer_present(TIMER_0));
-	UNIT_TEST_ASSERT_EQUAL(1, timer_present(TIMER_1));
-	UNIT_TEST_ASSERT_EQUAL(1, timer_present(TIMER_RTC));
-	UNIT_TEST_ASSERT_EQUAL(0, timer_present(3));
-	UNIT_TEST_ASSERT_EQUAL(0, timer_present(0xffffffff));
+	UNIT_TEST_ASSERT_EQUAL(1, arc_timer_present(TIMER_0));
+	UNIT_TEST_ASSERT_EQUAL(1, arc_timer_present(TIMER_1));
+	UNIT_TEST_ASSERT_EQUAL(1, arc_timer_present(TIMER_RTC));
+	UNIT_TEST_ASSERT_EQUAL(0, arc_timer_present(3));
+	UNIT_TEST_ASSERT_EQUAL(0, arc_timer_present(0xffffffff));
 }
 
 UNIT_TEST(arc_timer, start) {
-	if (timer_present(TIMER_0)) {
+	if (arc_timer_present(TIMER_0)) {
 		UNIT_TEST_ASSERT_EQUAL(0,
-				       timer_start(TIMER_0, 0xffffffff, 0xffffffff));
+				       arc_timer_start(TIMER_0, 0xffffffff, 0xffffffff));
 	}
-	if (timer_present(TIMER_1)) {
+	if (arc_timer_present(TIMER_1)) {
 		UNIT_TEST_ASSERT_EQUAL(0,
-				       timer_start(TIMER_1, 0xffffffff, 0xffffffff));
+				       arc_timer_start(TIMER_1, 0xffffffff, 0xffffffff));
 	}
-	if (timer_present(TIMER_RTC)) {
+	if (arc_timer_present(TIMER_RTC)) {
 		UNIT_TEST_ASSERT_EQUAL(0,
-				       timer_start(TIMER_RTC, 0xffffffff, 0xffffffff));
+				       arc_timer_start(TIMER_RTC, 0xffffffff, 0xffffffff));
 	}
-	UNIT_TEST_ASSERT_EQUAL(-1, timer_start(3, 0, 0));
-	UNIT_TEST_ASSERT_EQUAL(-1, timer_start(0xffffffff, 0, 0));
+	UNIT_TEST_ASSERT_EQUAL(-1, arc_timer_start(3, 0, 0));
+	UNIT_TEST_ASSERT_EQUAL(-1, arc_timer_start(0xffffffff, 0, 0));
 }
 
 UNIT_TEST(arc_timer, stop) {
-	if (timer_present(TIMER_0)) {
-		UNIT_TEST_ASSERT_EQUAL(0, timer_stop(TIMER_0));
+	if (arc_timer_present(TIMER_0)) {
+		UNIT_TEST_ASSERT_EQUAL(0, arc_timer_stop(TIMER_0));
 	}
-	if (timer_present(TIMER_1)) {
-		UNIT_TEST_ASSERT_EQUAL(0, timer_stop(TIMER_1));
+	if (arc_timer_present(TIMER_1)) {
+		UNIT_TEST_ASSERT_EQUAL(0, arc_timer_stop(TIMER_1));
 	}
-	if (timer_present(TIMER_RTC)) {
-		UNIT_TEST_ASSERT_EQUAL(0, timer_stop(TIMER_RTC));
+	if (arc_timer_present(TIMER_RTC)) {
+		UNIT_TEST_ASSERT_EQUAL(0, arc_timer_stop(TIMER_RTC));
 	}
-	UNIT_TEST_ASSERT_EQUAL(-1, timer_stop(3));
-	UNIT_TEST_ASSERT_EQUAL(-1, timer_stop(0xffffffff));
+	UNIT_TEST_ASSERT_EQUAL(-1, arc_timer_stop(3));
+	UNIT_TEST_ASSERT_EQUAL(-1, arc_timer_stop(0xffffffff));
 }
 
 UNIT_TEST(arc_timer, current) {
 	uint32_t val = 0xffffffff;
 
-	if (timer_present(TIMER_0)) {
-		timer_stop(TIMER_0);
-		UNIT_TEST_ASSERT_EQUAL(0, timer_current(TIMER_0, &val));
+	if (arc_timer_present(TIMER_0)) {
+		arc_timer_stop(TIMER_0);
+		UNIT_TEST_ASSERT_EQUAL(0, arc_timer_current(TIMER_0, &val));
 		UNIT_TEST_ASSERT_NOT_EQUAL(0, val);
 	}
-	if (timer_present(TIMER_1)) {
-		timer_stop(TIMER_1);
-		UNIT_TEST_ASSERT_EQUAL(0, timer_current(TIMER_1, &val));
+	if (arc_timer_present(TIMER_1)) {
+		arc_timer_stop(TIMER_1);
+		UNIT_TEST_ASSERT_EQUAL(0, arc_timer_current(TIMER_1, &val));
 		UNIT_TEST_ASSERT_NOT_EQUAL(0, val);
 	}
-	if (timer_present(TIMER_RTC)) {
+	if (arc_timer_present(TIMER_RTC)) {
 		uint64_t val1 = 0xffffffff;
-		timer_stop(TIMER_RTC);
-		UNIT_TEST_ASSERT_EQUAL(0, timer_current(TIMER_RTC, &val1));
+		arc_timer_stop(TIMER_RTC);
+		UNIT_TEST_ASSERT_EQUAL(0, arc_timer_current(TIMER_RTC, &val1));
 		UNIT_TEST_ASSERT_EQUAL(0, val1);
 	}
-	UNIT_TEST_ASSERT_EQUAL(-1, timer_current(0xffffffff, &val));
+	UNIT_TEST_ASSERT_EQUAL(-1, arc_timer_current(0xffffffff, &val));
 }
 
 UNIT_TEST(arc_timer, int_clear) {
-	if (timer_present(TIMER_0)) {
-		UNIT_TEST_ASSERT_EQUAL(0, timer_int_clear(TIMER_0));
+	if (arc_timer_present(TIMER_0)) {
+		UNIT_TEST_ASSERT_EQUAL(0, arc_timer_int_clear(TIMER_0));
 	}
-	if (timer_present(TIMER_1)) {
-		UNIT_TEST_ASSERT_EQUAL(0, timer_int_clear(TIMER_1));
+	if (arc_timer_present(TIMER_1)) {
+		UNIT_TEST_ASSERT_EQUAL(0, arc_timer_int_clear(TIMER_1));
 	}
-	UNIT_TEST_ASSERT_EQUAL(-1, timer_int_clear(0xffffffff));
+	UNIT_TEST_ASSERT_EQUAL(-1, arc_timer_int_clear(0xffffffff));
 }
 
 #if defined(ARC_FEATURE_SEC_TIMER1_PRESENT) \
 	|| defined(ARC_FEATURE_SEC_TIMER0_PRESENT)
 
 UNIT_TEST(arc_timer, s_start) {
-	if (secure_timer_present(SECURE_TIMER_0)) {
+	if (arc_secure_timer_present(SECURE_TIMER_0)) {
 		UNIT_TEST_ASSERT_EQUAL(0,
-				       secure_timer_start(SECURE_TIMER_0, 0xffffffff, 0xffffffff));
+				       arc_secure_timer_start(SECURE_TIMER_0, 0xffffffff, 0xffffffff));
 	}
-	if (secure_timer_present(SECURE_TIMER_1)) {
+	if (arc_secure_timer_present(SECURE_TIMER_1)) {
 		UNIT_TEST_ASSERT_EQUAL(0,
-				       secure_timer_start(SECURE_TIMER_1, 0xffffffff, 0xffffffff));
+				       arc_secure_timer_start(SECURE_TIMER_1, 0xffffffff, 0xffffffff));
 	}
 	UNIT_TEST_ASSERT_EQUAL(-1,
-			       secure_timer_start(TIMER_RTC, 0xffffffff, 0xffffffff));
+			       arc_secure_timer_start(TIMER_RTC, 0xffffffff, 0xffffffff));
 }
 
 UNIT_TEST(arc_timer, s_current) {
 	uint32_t val = 0xffffffff;
 
 	secure_timer_init();
-	if (secure_timer_present(SECURE_TIMER_0)) {
+	if (arc_secure_timer_present(SECURE_TIMER_0)) {
 		secure_timer_stop(SECURE_TIMER_0);
-		UNIT_TEST_ASSERT_EQUAL(0, secure_timer_current(SECURE_TIMER_0, &val));
+		UNIT_TEST_ASSERT_EQUAL(0, arc_secure_timer_current(SECURE_TIMER_0, &val));
 		UNIT_TEST_ASSERT_NOT_EQUAL(0, val);
-		UNIT_TEST_ASSERT_EQUAL(0, secure_timer_int_clear(SECURE_TIMER_0));
+		UNIT_TEST_ASSERT_EQUAL(0, arc_secure_timer_int_clear(SECURE_TIMER_0));
 	}
-	if (secure_timer_present(SECURE_TIMER_1)) {
+	if (arc_secure_timer_present(SECURE_TIMER_1)) {
 		secure_timer_stop(SECURE_TIMER_1);
-		UNIT_TEST_ASSERT_EQUAL(0, secure_timer_current(SECURE_TIMER_1, &val));
+		UNIT_TEST_ASSERT_EQUAL(0, arc_secure_timer_current(SECURE_TIMER_1, &val));
 		UNIT_TEST_ASSERT_NOT_EQUAL(0, val);
-		UNIT_TEST_ASSERT_EQUAL(0, secure_timer_int_clear(SECURE_TIMER_1));
+		UNIT_TEST_ASSERT_EQUAL(0, arc_secure_timer_int_clear(SECURE_TIMER_1));
 	}
-	UNIT_TEST_ASSERT_EQUAL(0, secure_timer_present(0xffffffff));
+	UNIT_TEST_ASSERT_EQUAL(0, arc_secure_timer_present(0xffffffff));
 	UNIT_TEST_ASSERT_EQUAL(-1, secure_timer_stop(0xffffffff));
-	UNIT_TEST_ASSERT_EQUAL(-1, secure_timer_current(0xffffffff, &val));
-	UNIT_TEST_ASSERT_EQUAL(-1, secure_timer_int_clear(0xffffffff));
+	UNIT_TEST_ASSERT_EQUAL(-1, arc_secure_timer_current(0xffffffff, &val));
+	UNIT_TEST_ASSERT_EQUAL(-1, arc_secure_timer_int_clear(0xffffffff));
 }
 #endif
 
 UNIT_TEST(arc_timer, calibrate) {
-	UNIT_TEST_ASSERT_NOT_EQUAL(-1, timer_calibrate_delay(1000000));
+	UNIT_TEST_ASSERT_NOT_EQUAL(-1, arc_timer_calibrate_delay(1000000));
 }
