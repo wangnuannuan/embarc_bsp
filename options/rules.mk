@@ -10,6 +10,9 @@ COMMON_COMPILE_PREREQUISITES += $(CORE_ARG_FILES)
 EXTRA_DEFINES += -DEMBARC_TCF_GENERATED
 endif
 
+ifeq ($(RUN_ON_QEMU), 1)
+	EXTRA_DEFINES += -DARC_FEATURE_CODE_DENSITY=0 -DARC_FEATURE_FPU=0 -DARC_FEATURE_DSP=0
+endif
 
 ## All defines ##
 ALL_DEFINES += $(CPU_DEFINES) $(BOARD_DEFINES) $(LIB_DEFINES) \
@@ -116,6 +119,7 @@ help :
 	@$(ECHO) 'Debug & Run Targets for selected configuration:'
 	@$(ECHO) '  run         - Use MDB & JTAG to download and run object elf file'
 	@$(ECHO) '  gui         - Use MDB & JTAG to download and debug object elf file'
+	@$(ECHO) '  qemu        - Download and run object elf file on QEMU'
 	@$(ECHO) 'Other Targets:'
 	@$(ECHO) '  cfg         - Display build target configuration'
 	@$(ECHO) '  opt         - Display Current MAKE options'
@@ -275,6 +279,23 @@ nsim : $(EMBARC_GENERATED_DIR)/$(GENE_NSIM_PROPS)
 endif
 	@$(ECHO) "Start nSim Standalone"
 	$(NSIMDRV) -gdb -port 1234 -p nsim_emt=1 $(NSIMDRV_OPT)
+endif
+endif
+
+ifeq ($(RUN_ON_QEMU), 1)
+ifeq ($(BOARD), nsim)
+QEMU_EXECUTABLE ?= qemu-system-arc
+QEMU_PIPE=$(APPL_FULL_NAME).qemu_fifo
+QEMU_OPT = -cpu $(CUR_CORE) -M virt -m 8M -nographic -no-reboot -monitor none \
+	-global cpu.firq=false -global cpu.num-irqlevels=15 -global cpu.num-irq=25 \
+	-global cpu.ext-irq=20 -global cpu.freq_hz=1000000 -global cpu.timer0=true \
+	-global cpu.timer1=true -net none -pidfile $(APPL_FULL_NAME)qemu.pid -chardev pipe,id=con,mux=on,path=$(QEMU_PIPE) 
+
+qemu : $(APPL_FULL_NAME).elf
+	@$(ECHO) "Download & Run $< on arc qemu"
+	@$(ECHO) "Please notice that qemu machine virt has the RAM allocated to address 0x80000000"
+	@touch $(QEMU_PIPE)
+	$(QEMU_EXECUTABLE) $(QEMU_OPT) -kernel $<
 endif
 endif
 

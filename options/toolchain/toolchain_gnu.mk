@@ -1,5 +1,5 @@
 ifeq ($(DEBUG), 1)
-	CDEBUG_OPTION := -g
+	CDEBUG_OPTION := -g -g3 -gdwarf-2
 endif
 
 ifeq ($(MAP), 1)
